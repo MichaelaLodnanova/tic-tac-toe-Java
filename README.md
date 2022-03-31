@@ -9,6 +9,7 @@ Homework assignment no. 1, Tic-Tac-Toe
 
 * 15.3.2022: Fixed JDK 11 compatibility issue with ``String#formatted``
 * 16.3.2022: Fixed Test on Windows caused by unnecessary stdout normalization  
+* 31.3.2022: Added ci pipeline
 
 General information
 -------------------
