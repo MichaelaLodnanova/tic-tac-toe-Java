@@ -42,14 +42,11 @@ public class Manager implements GameManager {
      * supposed to be provided now.
      */
     public void playGame(){
-
         int playerIndex = 0;
         int gameTurn = 1;
-
         boolean isFinished = false;
 
         while (!isFinished){
-
             //starting over and over till isFinished
             if (playerIndex > configuration.getPlayers().length-1) {
                 playerIndex = 0;
@@ -65,7 +62,6 @@ public class Manager implements GameManager {
             System.out.print(Messages.TURN_DELIMITER);
 
             switch (parsedCommand.command) {
-
                 case TURN:
                     if (isCommandValid(parsedCommand)) {
                         storeBoard((TicTacToeBoard) currentBoard.copy());
@@ -75,7 +71,6 @@ public class Manager implements GameManager {
                         System.out.print(Messages.ERROR_ILLEGAL_PLAY + System.lineSeparator());
                     }
                     break;
-
                 case REWIND:
                     if (isCommandValid(parsedCommand) && parsedCommand.arg1 < configuration.getHistorySize()) {
                         for (int num = 1; num < parsedCommand.arg1; num++){
@@ -89,7 +84,6 @@ public class Manager implements GameManager {
                         System.out.print(Messages.ERROR_REWIND + System.lineSeparator());
                     }
                     break;
-
                 case QUIT:
                     System.out.printf(Messages.GAME_OVER, gameTurn - 1);
                     System.out.print(currentBoard.format());
@@ -99,9 +93,7 @@ public class Manager implements GameManager {
                 default:
                     System.out.print(Messages.ERROR_INVALID_COMMAND);
             }
-
             System.out.print(System.lineSeparator());
-
             if (currentBoard.hasWinner() != null) {
 
                 System.out.printf(Messages.GAME_OVER, gameTurn);
@@ -109,8 +101,6 @@ public class Manager implements GameManager {
                 System.out.printf(Messages.GAME_WINNER, currentPlayer);
                 isFinished = true;
             }
-
-
             playerIndex++;
             gameTurn++;
         }
@@ -160,7 +150,6 @@ public class Manager implements GameManager {
             //N must be in <0, h) where h is the size of history
             return (rewindTurns >= 0) && (rewindTurns <= configuration.getHistorySize());
         }
-
 
         return false;
     }
