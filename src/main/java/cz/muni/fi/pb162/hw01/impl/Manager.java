@@ -54,7 +54,7 @@ public class Manager implements GameManager {
             char currentPlayer = configuration.getPlayers()[playerIndex];
 
             System.out.printf(Messages.TURN_COUNTER + currentBoard.format()
-                    + "\n" + Messages.TURN_PROMPT, gameTurn, currentPlayer);
+                     + Messages.TURN_PROMPT, gameTurn, currentPlayer);
 
             ParsedCommand parsedCommand = ParsedCommand.parseCommand(Utils.readLineFromStdIn());
 
@@ -94,7 +94,7 @@ public class Manager implements GameManager {
             if (currentBoard.hasWinner() != null) {
 
                 System.out.printf(Messages.GAME_OVER + currentBoard.format()
-                        + "\n" + Messages.GAME_WINNER, gameTurn, currentPlayer);
+                        + Messages.GAME_WINNER, gameTurn, currentPlayer);
 
                 isFinished = true;
             }
