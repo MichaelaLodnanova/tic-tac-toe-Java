@@ -1,6 +1,10 @@
 package cz.muni.fi.pb162.hw01;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -22,7 +26,7 @@ public final class Utils {
     public static Character[][] flattenArrays(Character[][] dest, Character[][]... arrays) {
         var totalLength = Stream.of(arrays).map( it -> it.length).reduce(0, Integer::sum);
         if (dest.length < totalLength) {
-           throw new IndexOutOfBoundsException("Destination array has insufficient length");
+            throw new IndexOutOfBoundsException("Destination array has insufficient length");
         }
 
         var destPos = 0;
@@ -49,4 +53,21 @@ public final class Utils {
         var scanner =  new Scanner(System.in);
         return scanner.nextLine();
     }
+
+    public static Character[] convertCharArray (char[] charArray) {
+        return new String(charArray).chars().mapToObj(c -> (char) c).toArray(Character[]::new);
+    }
+
+    public static List<String> findPositiveIntegers(String stringToSearch) {
+        Pattern integerPattern = Pattern.compile("\\d+");
+        Matcher matcher = integerPattern.matcher(stringToSearch);
+
+        List<String> integerList = new ArrayList<>();
+        while (matcher.find()) {
+            integerList.add(matcher.group());
+        }
+
+        return integerList;
+    }
+
 }
