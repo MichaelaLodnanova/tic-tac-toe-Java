@@ -53,9 +53,8 @@ public class Manager implements GameManager {
             }
             char currentPlayer = configuration.getPlayers()[playerIndex];
 
-            System.out.printf(Messages.TURN_COUNTER, gameTurn);
-            System.out.print(currentBoard.format());
-            System.out.printf(Messages.TURN_PROMPT, currentPlayer);
+            System.out.printf(Messages.TURN_COUNTER + currentBoard.format()
+                    + "\n" + Messages.TURN_PROMPT, gameTurn, currentPlayer);
 
             ParsedCommand parsedCommand = ParsedCommand.parseCommand(Utils.readLineFromStdIn());
 
@@ -66,8 +65,7 @@ public class Manager implements GameManager {
                     if (isCommandValid(parsedCommand)) {
                         storeBoard((TicTacToeBoard) currentBoard.copy());
                         currentBoard.put(parsedCommand.arg1, parsedCommand.arg2, currentPlayer);
-                    }
-                    else {
+                    } else {
                         System.out.print(Messages.ERROR_ILLEGAL_PLAY + System.lineSeparator());
                     }
                     break;
@@ -79,14 +77,13 @@ public class Manager implements GameManager {
 
                         currentBoard = (TicTacToeBoard) history.getLast();
                         history.removeLast();
-                    }
-                    else {
+                    } else {
                         System.out.print(Messages.ERROR_REWIND + System.lineSeparator());
                     }
                     break;
                 case QUIT:
-                    System.out.printf(Messages.GAME_OVER, gameTurn - 1);
-                    System.out.print(currentBoard.format());
+                    System.out.printf(Messages.GAME_OVER + currentBoard.format(), gameTurn - 1);
+
                     isFinished = true;
 
                 case INVALID:
@@ -96,9 +93,9 @@ public class Manager implements GameManager {
             System.out.print(System.lineSeparator());
             if (currentBoard.hasWinner() != null) {
 
-                System.out.printf(Messages.GAME_OVER, gameTurn);
-                System.out.print(currentBoard.format());
-                System.out.printf(Messages.GAME_WINNER, currentPlayer);
+                System.out.printf(Messages.GAME_OVER + currentBoard.format()
+                        + "\n" + Messages.GAME_WINNER, gameTurn, currentPlayer);
+
                 isFinished = true;
             }
             playerIndex++;
@@ -157,7 +154,7 @@ public class Manager implements GameManager {
     /**
      * Private static class for parsing commands.
      */
-    private final static class ParsedCommand {
+    private static final class ParsedCommand {
 
         enum Command {
             TURN,
@@ -200,8 +197,7 @@ public class Manager implements GameManager {
 
                 if (arguments.size() != 2){
                     return new ParsedCommand(Command.INVALID, null, null);
-                }
-                else {
+                } else {
                     return new ParsedCommand(Command.TURN,
                             Integer.valueOf(arguments.get(0)), Integer.valueOf(arguments.get(1)));
                 }
@@ -218,8 +214,7 @@ public class Manager implements GameManager {
 
                 if (arguments.size() != 1){
                     return new ParsedCommand(Command.INVALID, null, null);
-                }
-                else {
+                } else {
                     return new ParsedCommand(Command.REWIND,
                             Integer.valueOf(arguments.get(0)), null);
                 }
