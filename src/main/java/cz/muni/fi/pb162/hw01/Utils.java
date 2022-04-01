@@ -54,10 +54,11 @@ public final class Utils {
         return scanner.nextLine();
     }
 
-    public static Character[] convertCharArray (char[] charArray) {
-        return new String(charArray).chars().mapToObj(c -> (char) c).toArray(Character[]::new);
-    }
-
+    /**
+     * Finds integers from input to be parsed
+     * @param stringToSearch represent input
+     * @return list of integers
+     */
     public static List<String> findPositiveIntegers(String stringToSearch) {
         Pattern integerPattern = Pattern.compile("\\d+");
         Matcher matcher = integerPattern.matcher(stringToSearch);

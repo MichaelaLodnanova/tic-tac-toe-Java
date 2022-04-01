@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class TicTacToeBoard implements Board {
 
-    Configuration configuration;
+    private Configuration configuration;
 
     private char[][] board;
 
@@ -32,7 +32,6 @@ public class TicTacToeBoard implements Board {
 
                 board[i][j] = Configuration.UNASSIGNED;
 
-
             }
         }
     }
@@ -54,9 +53,15 @@ public class TicTacToeBoard implements Board {
     public Character hasWinner() {
 
         for (char player : configuration.getPlayers()) {
-            if (checkHorizontal(player)) return player;
-            if (checkVertical(player)) return player;
-            if (checkDiagonal(player)) return player;
+            if (checkHorizontal(player)) {
+                return player;
+            }
+            if (checkVertical(player)) {
+                return player;
+            }
+            if (checkDiagonal(player)) {
+                return player;
+            }
         }
 
         return null;
@@ -148,8 +153,9 @@ public class TicTacToeBoard implements Board {
                 //found player's symbol
                 if (board[i][j] == (player)) {
                     counter++;
-                    if (counter >= configuration.getWinSize())
+                    if (counter >= configuration.getWinSize()) {
                         return true;
+                    }
                 } else {
                     //player's sequence discontinued in the row, resetting the counter
                     counter = 0;
@@ -178,8 +184,9 @@ public class TicTacToeBoard implements Board {
                 //found player's symbol
                 if (board[i][j] == (player)) {
                     counter++;
-                    if (counter >= configuration.getWinSize())
+                    if (counter >= configuration.getWinSize()){
                         return true;
+                    }
                 } else {
                     //player's sequence discountinued in the column, resetting the counter
                     counter = 0;
@@ -197,16 +204,14 @@ public class TicTacToeBoard implements Board {
      * @return true if we have a winner on horizontals
      */
     private boolean checkDiagonal(char player) {
-        int win_size = configuration.getWinSize();
-        int board_size = configuration.getBoardSize();
-        int off_line = board_size - win_size;
+        int offLine = configuration.getBoardSize() - configuration.getWinSize();
 
-        for (int i = 0; i <= off_line; i++) {
-            for (int j = 0; j < board_size; j++) {
+        for (int i = 0; i <= offLine; i++) {
+            for (int j = 0; j < configuration.getBoardSize(); j++) {
                 if (board[i][j] == player) {
                     boolean won = true;
-                    if (j + win_size - 1 < board_size) {
-                        for (int x = 1; x < win_size; x++) {
+                    if (j + configuration.getWinSize() - 1 < configuration.getBoardSize()) {
+                        for (int x = 1; x < configuration.getWinSize(); x++) {
                             if (board[i + x][j + x] != player) {
                                 won = false;
                                 break;
@@ -218,8 +223,8 @@ public class TicTacToeBoard implements Board {
                         }
                     }
 
-                    if (j - win_size + 1 >= 0) {
-                        for (int x = 1; x < win_size; x++) {
+                    if (j - configuration.getWinSize() + 1 >= 0) {
+                        for (int x = 1; x < configuration.getWinSize(); x++) {
                             if (board[i + x][j - x] != player) {
                                 won = false;
                                 break;

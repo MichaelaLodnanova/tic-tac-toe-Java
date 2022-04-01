@@ -5,7 +5,10 @@ package cz.muni.fi.pb162.hw01.impl;
  */
 public interface Board {
 
-
+    /**
+     * Finds a winner
+     * @return winners representation - symbol
+     */
     Character hasWinner();
 
     /**

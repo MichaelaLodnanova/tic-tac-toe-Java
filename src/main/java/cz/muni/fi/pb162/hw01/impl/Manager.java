@@ -51,7 +51,9 @@ public class Manager implements GameManager {
         while (!isFinished){
 
             //starting over and over till isFinished
-            if (playerIndex > configuration.getPlayers().length-1) playerIndex = 0;
+            if (playerIndex > configuration.getPlayers().length-1) {
+                playerIndex = 0;
+            }
             char currentPlayer = configuration.getPlayers()[playerIndex];
 
             System.out.printf(Messages.TURN_COUNTER, gameTurn);
@@ -68,9 +70,10 @@ public class Manager implements GameManager {
                     if (isCommandValid(parsedCommand)) {
                         storeBoard((TicTacToeBoard) currentBoard.copy());
                         currentBoard.put(parsedCommand.arg1, parsedCommand.arg2, currentPlayer);
-
                     }
-                    else System.out.print(Messages.ERROR_ILLEGAL_PLAY + System.lineSeparator());
+                    else {
+                        System.out.print(Messages.ERROR_ILLEGAL_PLAY + System.lineSeparator());
+                    }
                     break;
 
                 case REWIND:
@@ -82,7 +85,9 @@ public class Manager implements GameManager {
                         currentBoard = (TicTacToeBoard) history.getLast();
                         history.removeLast();
                     }
-                    else System.out.print(Messages.ERROR_REWIND + System.lineSeparator());
+                    else {
+                        System.out.print(Messages.ERROR_REWIND + System.lineSeparator());
+                    }
                     break;
 
                 case QUIT:
@@ -138,8 +143,12 @@ public class Manager implements GameManager {
             int col = parsedCommand.arg2;
 
             //Both numbers must be in <0, n) where n is the size of the board
-            if ((row < 0) || (row > configuration.getBoardSize()-1)) return false;
-            if ((col < 0) || (col > configuration.getBoardSize()-1)) return false;
+            if ((row < 0) || (row > configuration.getBoardSize()-1)) {
+                return false;
+            }
+            if ((col < 0) || (col > configuration.getBoardSize()-1)) {
+                return false;
+            }
 
             //Coordinates are referencing an empty cell
             return currentBoard.getCell(row, col) == ' ';
@@ -159,7 +168,7 @@ public class Manager implements GameManager {
     /**
      * Private static class for parsing commands.
      */
-    private static class ParsedCommand {
+    private final static class ParsedCommand {
 
         enum Command {
             TURN,
@@ -168,9 +177,9 @@ public class Manager implements GameManager {
             INVALID
         }
 
-        Integer arg1;
-        Integer arg2;
-        Command command;
+        private Integer arg1;
+        private Integer arg2;
+        private Command command;
 
         /**
          * Constructor creates an object ParsedCommand which is represented
@@ -179,7 +188,7 @@ public class Manager implements GameManager {
          * @param arg1 of type integer is first argument of a command
          * @param arg2 of type integer is second argument of a command
          */
-        private ParsedCommand(Command command, Integer arg1, Integer arg2) {
+        private ParsedCommand(Command command, Integer arg1, Integer arg2){
             this.command = command;
             this.arg1 = arg1;
             this.arg2 = arg2;
@@ -190,17 +199,17 @@ public class Manager implements GameManager {
          * @param inputLine commands from input
          * @return parsed command
          */
-        public static ParsedCommand parseCommand(String inputLine) {
+        public static ParsedCommand parseCommand(String inputLine){
 
             //check if it is TURN command
             Pattern turnCommandPattern = Pattern.compile("^(\\s+)?\\d+\\s\\d+(\\s+)?$");
             Matcher matcher = turnCommandPattern.matcher(inputLine);
 
-            if (matcher.matches()) {
+            if (matcher.matches()){
                 //it is a TRUN command
                 List<String> arguments = Utils.findPositiveIntegers(inputLine);
 
-                if (arguments.size() != 2) {
+                if (arguments.size() != 2){
                     return new ParsedCommand(Command.INVALID, null, null);
                 }
                 else {
@@ -214,17 +223,16 @@ public class Manager implements GameManager {
             Pattern rewindCommandPattern = Pattern.compile("^(\\s+)?<<\\d+(\\s+)?$");
             matcher = rewindCommandPattern.matcher(inputLine);
 
-            if (matcher.matches()) {
+            if (matcher.matches()){
                 //it is a REWIND command
                 List<String> arguments = Utils.findPositiveIntegers(inputLine);
 
-                if (arguments.size() != 1) {
+                if (arguments.size() != 1){
                     return new ParsedCommand(Command.INVALID, null, null);
                 }
                 else {
                     return new ParsedCommand(Command.REWIND,
                             Integer.valueOf(arguments.get(0)), null);
-
                 }
 
             }
@@ -233,7 +241,7 @@ public class Manager implements GameManager {
             Pattern quitCommandPattern = Pattern.compile("^(\\s+)?:q(\\s+)?$");
             matcher = quitCommandPattern.matcher(inputLine);
 
-            if (matcher.matches()) {
+            if (matcher.matches()){
                 //it is a quit command
                 return new ParsedCommand(Command.QUIT, null, null);
             }

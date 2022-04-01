@@ -49,19 +49,19 @@ public class Configuration implements GameConfiguration {
 
     @Override
     public boolean isValid() {
-        // 	* winSize cannot be bigger than boardSize
+        // winSize cannot be bigger than boardSize
         if (winSize > boardSize || winSize < 3){
             return false;
         }
-        //  * validation of parameters
+        // validation of parameters
         if (boardSize < 3 || historySize < 0 || historySize > boardSize * boardSize){
             return false;
         }
-        //  * players number must be > 1 + number of players should not be bigger than board size
+        // players number must be > 1 + number of players should not be bigger than board size
         if (players.length <= 1 || players.length > boardSize){
             return false;
         }
-        //  * player cannot be space ' '
+        // player cannot be space ' '
         for (char player : players) {
             if (player == ' ') {
                 return false;
