@@ -1,7 +1,9 @@
 package cz.muni.fi.pb162.hw01.impl;
 
 import com.beust.jcommander.Parameter;
+import cz.muni.fi.pb162.hw01.Utils;
 import cz.muni.fi.pb162.hw01.cmd.CommandLine;
+import cz.muni.fi.pb162.hw01.cmd.Messages;
 
 /**
  * Application class represents the command line interface of this application.
@@ -12,12 +14,21 @@ import cz.muni.fi.pb162.hw01.cmd.CommandLine;
  */
 public class Application {
     @Parameter(names = { "--size", "-s" })
-    private int size = 3;
+    private int boardSize = 3;
 
     // Implement additional command line flags
 
     @Parameter(names = "--help", help = true)
     private boolean showUsage = false;
+
+    @Parameter(names = {"--win", "-w"})
+    private int winSize = 3;
+
+    @Parameter(names = {"--history", "-h"})
+    private int historySize = 1;
+
+    @Parameter(names = {"--playes", "-p"})
+    private String players = "xo";
 
     /**
      * Application entry point
@@ -41,8 +52,17 @@ public class Application {
      * Application runtime logic
      */
     private void run() {
-        // TODO: Remove the following lines and implement the functionality
-        System.err.println("Not implemented yet!");
-        System.exit(2);
+
+        //initialize and validate game configuration
+        Configuration configuration = new Configuration(boardSize, winSize, historySize, players);
+        if (configuration.isValid()) {
+            //create the TicTacToeManager object that controls the game
+            GameManager ticTacToe = new Manager(configuration);
+            ticTacToe.playGame();
+        } else {
+            Utils.error(Messages.ERROR_INVALID_COMMAND);
+            System.exit(1);
+        }
+
     }
 }
